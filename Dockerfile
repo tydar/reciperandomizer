@@ -12,6 +12,7 @@ RUN go mod download
 COPY *.go ./
 COPY models/*.go ./models/
 COPY handlers/*.go ./handlers/
+COPY templates/*.html ./templates/
 
 RUN go build -o /reciperandomizer
 
@@ -23,7 +24,7 @@ FROM gcr.io/distroless/base-debian10 AS deploy
 WORKDIR /app
 
 COPY --from=build /reciperandomizer ./reciperandomizer
-COPY templates/*.html ./templates/
+COPY --from=build /app/templates/*.html ./templates/
 
 EXPOSE 32801
 
