@@ -7,6 +7,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/jackc/pgx/v4"
 	"github.com/tydar/reciperandomizer/models"
 )
 
@@ -97,16 +98,23 @@ func (e *Env) AllHandler(w http.ResponseWriter, r *http.Request) {
 
 func (e *Env) IndexHandler(w http.ResponseWriter, r *http.Request) {
 	recipe, err := e.recipes.GetRandom(r.Context())
+	present := true
 	if err != nil {
-		http.Error(w, fmt.Sprintf("index: %v", err), http.StatusInternalServerError)
+		if err == pgx.ErrNoRows {
+			present = false
+		} else {
+			http.Error(w, fmt.Sprintf("index: %v", err), http.StatusInternalServerError)
+		}
 	}
 
 	templateObj := struct {
-		Recipe recipeResponse
-		Flash  string
+		Recipe  recipeResponse
+		Flash   string
+		Present bool
 	}{
-		Recipe: recipeModelToRecipeResponse(recipe),
-		Flash:  "",
+		Recipe:  recipeModelToRecipeResponse(recipe),
+		Flash:   "",
+		Present: present,
 	}
 
 	if err := e.ExecuteTemplate("index", w, templateObj); err != nil {
