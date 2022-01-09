@@ -4,6 +4,7 @@
 {{ define "body" }}
 <h3>How about this?</h3>
 {{ if .Present }}
+=======
 <article>
 <hgroup>
 	<h3><a href="/recipe/{{ .Recipe.Id }}">{{ .Recipe.Title }}</a></h3>
@@ -26,4 +27,5 @@ No notes yet!
 {{ else }}
 <h3>No recipes yet! Click add at the top right to get started.</h3>
 {{ end }}
+=======
 {{ end }}
