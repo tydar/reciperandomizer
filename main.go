@@ -12,7 +12,10 @@ import (
 
 func main() {
 	dbUrl := os.Getenv("DATABASE_URL")
-	servePort := os.Getenv("RR_SERVE")
+	servePort := os.Getenv("PORT")
+	if servePort == "" {
+		servePort = "8080"
+	}
 
 	cf, err := pgxpool.ParseConfig(dbUrl)
 	if err != nil {
