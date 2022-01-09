@@ -283,7 +283,7 @@ func (e *Env) MadeHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func (e *Env) DeleteHandler(w http.ResponseWriter, r *http.Request) {
-	idS := r.URL.Path[len("/delete/"):]
+	idS := r.URL.Path[len("/recipe/delete/"):]
 
 	id, err := strconv.Atoi(idS)
 	if err != nil {

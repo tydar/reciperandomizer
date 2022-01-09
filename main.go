@@ -42,6 +42,7 @@ func main() {
 	mux.HandleFunc("/add/", env.AddHandler)
 	mux.HandleFunc("/all/", env.AllHandler)
 	mux.HandleFunc("/made/", env.MadeHandler)
+	mux.HandleFunc("/recipe/delete/", env.DeleteHandler)
 
 	http.ListenAndServe(":"+servePort, mux)
 }
