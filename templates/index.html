@@ -1,0 +1,25 @@
+{{ define "head" }}
+{{ end }}
+
+{{ define "body" }}
+<h3>How about this?</h3>
+<article>
+<hgroup>
+	<h3><a href="/recipe/{{ .Recipe.Id }}">{{ .Recipe.Title }}</a></h3>
+	<p><strong><i>{{ .Recipe.Book }}</i></strong> p. {{ .Recipe.PageNum }}</p>
+</hgroup>
+<h4>Last made: {{ .Recipe.LastMade }}</h4>
+<h4>Notes</h4>
+<ul>
+{{ range .Recipe.Notes }}
+<li>{{ . }}</li>
+{{ else }}
+No notes yet!
+{{ end }}
+</ul>
+</article>
+<div class="grid">
+	<div><a href="/made/{{.Recipe.Id}}"><button>Made It!</button></a></div>
+	<div><button onClick="window.location.reload();">Give Another</button></div>
+</div>
+{{ end }}
