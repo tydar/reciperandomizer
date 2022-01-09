@@ -1,0 +1,19 @@
+{{ define "head" }}
+{{ end }}
+
+{{ define "body" }}
+<h3>All of your recipes!</h3>
+<article>
+	<ol>
+		{{ range .Recipes }}
+		<li>
+			<a href="/recipe/{{ .Id }}" data-tooltip="Last made: {{ .LastMade }}">
+				{{ .Title }}, <cite>{{ .Book }}</cite>
+			</a>
+		</li>
+		{{ else }}
+		<li>No recipes yet!</li>
+		{{ end }}
+	</ol>
+</article>
+{{ end }}

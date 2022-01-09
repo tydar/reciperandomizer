@@ -1,0 +1,28 @@
+{{ define "base" }}
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css">
+		<meta charset="utf-8">
+		{{ template "head" . }}
+	</head>
+	<body>
+		<header class="container">
+			<nav>
+				<ul><li><h2>Recipe Randomizer</h2></li></ul>
+				<ul>
+						<li><a href="/">Randomize</a></li>
+						<li><a href="/add/">Add</a></li>
+						<li><a href="/all/">All</a></li>
+				</ul>
+			</nav>
+		</header>
+		<main class="container">
+			{{ if .Flash }}
+			<article> {{ .Flash }} </article>
+			{{ end }}
+			{{ template "body" . }}
+		</main>
+	</body>
+</html>
+{{ end }}
