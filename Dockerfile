@@ -22,8 +22,8 @@ FROM gcr.io/distroless/base-debian10 AS deploy
 
 WORKDIR /app
 
-COPY --from=build /reciperandomizer /app/reciperandomizer
-COPY templates/*.html /app/
+COPY --from=build /reciperandomizer ./reciperandomizer
+COPY templates/*.html ./templates/
 
 EXPOSE 32801
 
