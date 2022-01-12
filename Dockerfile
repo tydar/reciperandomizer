@@ -26,8 +26,6 @@ WORKDIR /app
 COPY --from=build /reciperandomizer ./reciperandomizer
 COPY templates/*.html ./templates/
 
-EXPOSE 32801
-
 USER nonroot:nonroot
 
 ENTRYPOINT [ "/app/reciperandomizer" ]
