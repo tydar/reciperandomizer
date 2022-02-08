@@ -296,3 +296,34 @@ func (e *Env) DeleteHandler(w http.ResponseWriter, r *http.Request) {
 
 	http.Redirect(w, r, "/", http.StatusSeeOther)
 }
+
+func (e *Env) SearchHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method == "GET" {
+		if err := e.ExecuteTemplate("search", w, nil); err != nil {
+			http.Error(w, fmt.Sprintf("/search/: error: %v", err), http.StatusInternalServerError)
+			return
+		}
+	} else if r.Method == "POST" {
+		searchText := r.FormValue("search")
+		recipes, err := e.recipes.Search(r.Context(), searchText)
+		if err != nil {
+			http.Error(w,
+				fmt.Sprintf("/search/ term: \"%s\": error: %v", searchText, err),
+				http.StatusInternalServerError)
+			return
+		}
+
+		templObj := struct {
+			Recipes []models.Recipe
+		}{
+			Recipes: recipes,
+		}
+
+		if err := e.ExecutePartialTemplate("searchResult", w, templObj); err != nil {
+			http.Error(w,
+				fmt.Sprintf("/search/ term: \"%s\": error: %v", searchText, err),
+				http.StatusInternalServerError)
+			return
+		}
+	}
+}

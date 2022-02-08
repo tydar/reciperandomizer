@@ -93,6 +93,34 @@ func (rm *RecipeModel) Delete(ctx context.Context, id int) error {
 	return err
 }
 
+func (rm *RecipeModel) Search(ctx context.Context, text string) ([]Recipe, error) {
+	// this query is not optimal performance-wise, I don't think
+	// suggestion from an SO link I closed: create a column called search_fields that combines all desired
+	// searchable text and create an index on that column
+
+	queryStr := `
+	select id, title, book, page_num, notes, last_made
+	from recipes
+	where
+	LOWER(title) || LOWER(book) || LOWER(notes) like '%' || LOWER($1) || '%'
+	`
+	rs, err := rm.pool.Query(ctx, queryStr, text)
+	if err != nil {
+		return []Recipe{}, err
+	}
+
+	recipes := make([]Recipe, 0)
+	for rs.Next() {
+		recipe, err := scanToRecipe(rs)
+		if err != nil {
+			return []Recipe{}, err
+		}
+
+		recipes = append(recipes, recipe)
+	}
+	return recipes, nil
+}
+
 // ----------
 // helpers
 

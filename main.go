@@ -30,10 +30,16 @@ func main() {
 	}
 
 	env := handlers.NewEnv(pool)
+
+	// full page templates based on base.html
 	env.AddTemplate("index", "templates/base.html", "templates/index.html")
 	env.AddTemplate("recipe", "templates/base.html", "templates/recipe.html")
 	env.AddTemplate("addRecipe", "templates/base.html", "templates/add.html")
 	env.AddTemplate("all", "templates/base.html", "templates/all.html")
+	env.AddTemplate("search", "templates/base.html", "templates/search.html")
+
+	// partial templates
+	env.AddPartial("searchResult", "templates/search_results.html")
 
 	mux := http.NewServeMux()
 
@@ -43,6 +49,7 @@ func main() {
 	mux.HandleFunc("/all/", env.AllHandler)
 	mux.HandleFunc("/made/", env.MadeHandler)
 	mux.HandleFunc("/recipe/delete/", env.DeleteHandler)
+	mux.HandleFunc("/search/", env.SearchHandler)
 
 	http.ListenAndServe(":"+servePort, mux)
 }
