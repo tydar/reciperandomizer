@@ -1,0 +1,11 @@
+<ol id="search-results">
+	{{ range .Recipes }}
+	<li>
+		<a href="/recipe/{{ .Id }}" data-tooltip="Last made: {{ .LastMade }}">
+			{{ .Title }}, <cite>{{ .Book }}</cite>
+		</a>
+	</li>
+	{{ else }}
+	<li>No recipes yet!</li>
+	{{ end }}
+</ol>

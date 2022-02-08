@@ -1,0 +1,22 @@
+{{ define "head" }}
+<script src="https://unpkg.com/htmx.org@1.6.1"></script>
+{{ end }}
+
+{{ define "body" }}
+<h3>
+	Search Recipes
+</h3>
+<input class="form-control" type="search"
+       name="search" placeholder="Begin typing to search recipes..."
+       hx-post="/search/"
+       hx-trigger="keyup changed delay:500ms, search"
+       hx-target="#search-results"
+       hx-indicator=".htmx-indicator"
+       hx-swap="outerHTML">
+	
+<article>
+	<ol id="search-results">
+		<li>No recipes yet!</li>
+	</ol>
+</article>
+{{ end }}
